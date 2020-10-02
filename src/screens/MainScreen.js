@@ -81,7 +81,7 @@ constructor(props){
       
             <ScrollView>
         {data?data.map(item=>(
-        <DataItem key={item.id} pt={item.port} rng={item.ronga} />
+        <DataItem key={item.id} pt={item.port} rng={item.ronga}  onPress={()=>this.props.navigation.navigate('DetailScreen' , {data:item})}/>
         )):<Text>hhh</Text>}  
         </ScrollView>
             </View>
@@ -91,13 +91,13 @@ constructor(props){
 }
 
 
-const DataItem = ({id,pt , rng })=>(
-    <ListItem key={id} bottomDivider>
+const DataItem = ({id,pt , rng ,onPress})=>(
+    <ListItem key={id} bottomDivider onPress={onPress}>
           
     <ListItem.Content>
-<ListItem.Title>{pt}</ListItem.Title>
+    <ListItem.Title>{pt}</ListItem.Title>
       
-<ListItem.Subtitle>{rng}</ListItem.Subtitle>
+    <ListItem.Subtitle>{rng}</ListItem.Subtitle>
    
     </ListItem.Content>
    

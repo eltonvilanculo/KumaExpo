@@ -11,13 +11,14 @@ import {
 export default class DetailScreen extends React.Component{
 
 
+
     render() {
         // console.log(this.props.navigation.getParam('possibleFriends', 'defaultValue'))
-        console.log('detail',this.props.route.params.data.id)
+      const word = this.props.route.params  ; 
         return(
 
             <View>
-                <Text>Main Screen</Text>
+                <Text>{JSON.stringify(word)}</Text>
             </View>
 
         )
