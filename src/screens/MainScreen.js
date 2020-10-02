@@ -6,7 +6,9 @@ import { Header ,Item ,Icon , Input, Content} from "native-base";
 
 
 export default class MainScreen  extends React.Component{
+ wordResultAux =[] ; 
 constructor(props){
+   
     super(props)
     this.state = {
         data: [] ,
@@ -23,22 +25,44 @@ constructor(props){
         const data = await response.json()
         this.setState({
             data:data , 
-            isLoading:false
+            isLoading:false,
+            value:''
         })
+        this.wordResultAux = data ; 
+        
     } catch(error){
+       
         console.log('FETCHERROR', error)
     }
         
        }
 
+       handleIput=(e)=>{
+        
+        //    console.log('writing',e)
+           this.setState({value:e})
+           this.setState({data:this.checkWords(e)})
+           console.log('dataList -> ' ,this.state.wordList)
+        
+        //   console.log('result search ->',this.checkWords(e)) 
     
+        }
+    
+        checkWords(word){
+    
+            // const array =  this.state.wordList ; 
+            // const array =  ['a' ,'asas' , 'vddd' , 'www' , 'ssss' , 'wert'] ; 
+    
+            return this.wordResultAux.filter(searchResut=>searchResut.port.toLowerCase().indexOf(word.toLowerCase()) > -1)
+    
+        }
 
-
-
-    render(){
+        render(){
         const {data ,isLoading} = this.state ; 
       
-       
+       if(isLoading){
+         console.log('Loading...')
+       }
         return(
 
            
@@ -49,14 +73,16 @@ constructor(props){
                                
                                   <Item style={styles.InputSearch}>
                                       <Icon name="ios-search" />
-                                      <Input placeholder="Pesquisar" />
+                                      <Input placeholder="Pesquisar" onChangeText={this.handleIput} value={this.state.value} />
                                   </Item>
                                
                          
             </Header>
       
             <ScrollView>
-        {data?data.map(item=>(<DataItem key={item.id} pt={item.port} rng={item.ronga} />)):<Text>hhh</Text>}  
+        {data?data.map(item=>(
+        <DataItem key={item.id} pt={item.port} rng={item.ronga} />
+        )):<Text>hhh</Text>}  
         </ScrollView>
             </View>
             
@@ -86,6 +112,7 @@ const DataItem = ({id,pt , rng })=>(
 //     <MainScreen />
 //   </ApplicationProvider>
 // );
+
 
 
 const styles = StyleSheet.create({
